@@ -5,7 +5,7 @@ from .modelutils import residualBlock
 import numpy as np
 
 class UNet(nn.Module):
-    def __init__(self, c = 4, n_classes = 4):
+    def __init__(self, config=None, c = 4, n_classes = 4):
         super(UNet, self).__init__()
         
         self.c = c

@@ -59,8 +59,8 @@ class Hybrid(nn.Module):
         super(Hybrid, self).__init__()
         
         self.config = config
-        hw = config['inputsize'] // 32
-        self.z = config['latents']
+        hw = config.input_size // 32
+        self.z = config.latents
         self.encoder = EncoderConv(latents = self.z, hw = hw)
         
         self.downsample_matrices = downsample_matrices
@@ -68,10 +68,10 @@ class Hybrid(nn.Module):
         self.adjacency_matrices = adjacency_matrices
         self.kld_weight = 1e-5
                 
-        n_nodes = config['n_nodes']
-        self.filters = config['filters']
-        self.K = config['K'] # orden del polinomio
-        self.ventana = config['window']
+        n_nodes = config.n_nodes
+        self.filters = config.filters
+        self.K = config.K # orden del polinomio
+        self.ventana = config.window
         
         # Genero la capa fully connected del decoder
         outshape = self.filters[-1] * n_nodes[-1]          
@@ -83,11 +83,11 @@ class Hybrid(nn.Module):
         self.normalization5u = torch.nn.InstanceNorm1d(self.filters[4])
         self.normalization6u = torch.nn.InstanceNorm1d(self.filters[5])
         
-        if config['l1'] == 6 and config['l2'] == 5:
+        if config.l1 == 6 and config.l2 == 5:
             outsize1 = self.encoder.size[4]
             outsize2 = self.encoder.size[4]
             print('6-5')
-        elif config['l1'] == 5 and config['l2'] == 4:
+        elif config.l1 == 5 and config.l2 == 4:
             outsize1 = self.encoder.size[4]
             outsize2 = self.encoder.size[3]
             print('5-4')
@@ -179,9 +179,9 @@ class Hybrid(nn.Module):
         
         pos1 = self.graphConv_pre1(x, self.adjacency_matrices[3]._indices()) # Positions where to look
         
-        if self.config['l1'] == 6:
+        if self.config.l1 == 6:
             skip = self.lookup(pos1, conv6) 
-        elif self.config['l1'] == 5:
+        elif self.config.l1 == 5:
             skip = self.lookup(pos1, conv5) 
         else:
             skip = self.lookup(pos1, conv4)
@@ -201,9 +201,9 @@ class Hybrid(nn.Module):
         
         pos2 = self.graphConv_pre2(x, self.adjacency_matrices[1]._indices()) # Sin relu y sin bias
         
-        if self.config['l2'] == 5:
+        if self.config.l2 == 5:
             skip2 = self.lookup(pos2, conv5)        
-        elif self.config['l2'] == 4:
+        elif self.config.l2 == 4:
             skip2 = self.lookup(pos2, conv4)
         else:
             skip2 = self.lookup(pos2, conv3)

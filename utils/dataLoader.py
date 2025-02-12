@@ -50,7 +50,7 @@ class LandmarksDataset(Dataset):
         image = io.imread(img_name).astype('float') / 255.0
         image = np.expand_dims(image, axis=2)
         
-        label = img_name.replace(self.img_path, self.label_path).replace('.png', '.npy')
+        label = img_name.replace(str(self.img_path), str(self.label_path)).replace('.png', '.npy')
         landmarks = np.load(label)
         landmarks = landmarks.astype('float').reshape(-1, 2)
         

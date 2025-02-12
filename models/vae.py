@@ -57,13 +57,15 @@ class EncoderConv(nn.Module):
 class DecoderFull(nn.Module):
     def __init__(self, config, neurons = 512):
         super(DecoderFull, self).__init__()
-        self.latents = config['latents']
+        #self.latents = config['latents']
+        self.latents = config.latents
         self.neurons = neurons
         
         self.nonLinearity = nn.ReLU()
         self.fc1 = nn.Linear(self.latents, self.neurons)
         
-        if config['allOrgans'] == False:
+        #if config['allOrgans'] == False:
+        if config.all_organs == False:
             output_size = 240
         else:
             output_size = 332
@@ -82,9 +84,10 @@ class DecoderFull(nn.Module):
 class VAE_Mixed(nn.Module):
     def __init__(self, config):
         super(VAE_Mixed, self).__init__()
-        latents = config['latents']
-        
-        hw = config['inputsize'] // 32
+        # latents = config['latents']
+        # hw = config['inputsize'] // 32
+        latents = config.latents
+        hw = config.input_size // 32
         
         self.encoder = EncoderConv(latents, hw)
         self.decoder = DecoderFull(config, neurons = 512)

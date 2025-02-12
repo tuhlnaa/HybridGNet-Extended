@@ -56,9 +56,11 @@ class DecoderPCA(nn.Module):
     def __init__(self, config, latents=64):
         super(DecoderPCA, self).__init__()
         
-        device = config['device']
-        
-        if config['extended']:
+        # device = config['device']
+        device = config.device
+
+        #if config['extended']:
+        if config.extended:    
             self.matrix = np.load('models/pca_components_ext.npy')
             self.mean = np.load('models/pca_mean_ext.npy')
         else:
@@ -77,8 +79,10 @@ class PCA_Net(nn.Module):
     def __init__(self, config):
         super(PCA_Net, self).__init__()
                        
-        hw = config['inputsize'] // 32
-        self.z = config['latents']
+        # hw = config['inputsize'] // 32
+        # self.z = config['latents']
+        hw = config.input_size // 32
+        self.z = config.latents
         
         self.encoder = EncoderConv(latents = self.z, hw = hw)
         self.decoder = DecoderPCA(config)

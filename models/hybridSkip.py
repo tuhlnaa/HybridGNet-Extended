@@ -71,37 +71,37 @@ class Hybrid(nn.Module):
         super(Hybrid, self).__init__()
         
         self.config = config
-        hw = config['inputsize'] // 32
-        self.z = config['latents']
-        self.encoder = EncoderConv(latents = self.z, hw = hw, layer = config['layer'])
+        hw = config.input_size // 32
+        self.z = config.latents
+        self.encoder = EncoderConv(latents = self.z, hw = hw, layer = config.layer)
         
         self.downsample_matrices = downsample_matrices
         self.upsample_matrices = upsample_matrices
         self.adjacency_matrices = adjacency_matrices
         self.kld_weight = 1e-5
                 
-        n_nodes = config['n_nodes']
-        self.filters = config['filters']
-        self.K = config['K'] # orden del polinomio
+        n_nodes = config.n_nodes
+        self.filters = config.filters
+        self.K = config.K # orden del polinomio
         
         # Genero la capa fully connected del decoder
         outshape = self.filters[-1] * n_nodes[-1]          
         self.dec_lin = torch.nn.Linear(self.z, outshape)
                                 
-        if config['layer'] == 2:
+        if config.layer == 2:
             outsize = self.encoder.size[1]
-        elif config['layer'] == 3:
+        elif config.layer == 3:
             outsize = self.encoder.size[2]
-        elif config['layer'] == 4:
+        elif config.layer == 4:
             outsize = self.encoder.size[3]
-        elif config['layer'] == 5:
+        elif config.layer == 5:
             outsize = self.encoder.size[4]
-        elif config['layer'] == 6:
+        elif config.layer == 6:
             outsize = self.encoder.size[4]
         else:
             raise Exception('error in layer')
         
-        self.ventana = config['window']
+        self.ventana = config.window
         
         self.normalization2u = torch.nn.InstanceNorm1d(self.filters[1])
         self.normalization3u = torch.nn.InstanceNorm1d(self.filters[2])

@@ -59,8 +59,8 @@ class Hybrid(nn.Module):
     def __init__(self, config, downsample_matrices, upsample_matrices, adjacency_matrices):
         super(Hybrid, self).__init__()
                
-        hw = config['inputsize'] // 32
-        self.z = config['latents']
+        hw = config.input_size // 32
+        self.z = config.latents
         self.encoder = EncoderConv(latents = self.z, hw = hw)
         
         self.downsample_matrices = downsample_matrices
@@ -68,9 +68,9 @@ class Hybrid(nn.Module):
         self.adjacency_matrices = adjacency_matrices
         self.kld_weight = 1e-5
                 
-        n_nodes = config['n_nodes']
-        self.filters = config['filters']
-        self.K = config['K'] # orden del polinomio
+        n_nodes = config.n_nodes
+        self.filters = config.filters
+        self.K = config.K # orden del polinomio
         
         # Genero la capa fully connected del decoder
         outshape = self.filters[-1] * n_nodes[-1]        

@@ -6,7 +6,7 @@ Nicolás Gaggion¹, Lucas Mansilla¹, Candelaria Mosquera²³, Diego Milone¹, E
 ² Hospital Italiano de Buenos Aires, Buenos Aires, Argentina
 ³ Universidad Tecnológica Nacional, Buenos Aires, Argentina
 
-![workflow](imgs/arquitecture.png)
+![workflow](assets/arquitecture.png)
 
 ### 2023 Open Source Demo available at HuggingFace Spaces!
 
